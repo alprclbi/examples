@@ -24,31 +24,37 @@
 //}
 #endregion
 #region 2. Kısım
-static double DortİslemGeriDonuslu(int sayi1, int sayi2, DortIslem islemTipi)
-{
-    switch (islemTipi)
-    {
-        case DortIslem.Toplama:
-            return sayi1 + sayi2;
-        case DortIslem.Çıkarma:
-            return sayi1 - sayi2;
-        case DortIslem.Çarpma:
-            return sayi1 * sayi2;
-        case DortIslem.Bölme:
-            return sayi1 / sayi2;
-        default:
-            return 0;
-    }
-}
-double sonuc = DortİslemGeriDonuslu(4, 2, DortIslem.Toplama);
-Console.WriteLine($"Toplama işleminin sonucu: {sonuc} ");
-
-
-enum DortIslem
-{
-    Toplama,
-    Çıkarma,
-    Çarpma,
-    Bölme,
-}
+//static double DortİslemGeriDonuslu(int sayi1, int sayi2, DortIslem islemTipi)
+//{
+//    switch (islemTipi)
+//    {
+//        case DortIslem.Toplama:
+//            return sayi1 + sayi2;
+//        case DortIslem.Çıkarma:
+//            return sayi1 - sayi2;
+//        case DortIslem.Çarpma:
+//            return sayi1 * sayi2;
+//        case DortIslem.Bölme:
+//            return sayi1 / sayi2;
+//        default:
+//            return 0;
+//    }
+//}
+//double sonuc = DortİslemGeriDonuslu(4, 2, DortIslem.Toplama);
+//Console.WriteLine($"Toplama işleminin sonucu: {sonuc} ");
+//enum DortIslem
+//{
+//    Toplama,
+//    Çıkarma,
+//    Çarpma,
+//    Bölme,
+//}
 #endregion
+
+using Methods;
+
+OgrenciIslemleri ogrenci = new OgrenciIslemleri();
+ogrenci.SelamVer();
+ogrenci.SelamVer("Alper");
+Console.WriteLine($"Yaşınız parametresiz: {ogrenci.yasHesapla()}");
+Console.WriteLine($"Yaşınız parametreli: {ogrenci.yasHesapla(1995)}");
