@@ -49,12 +49,32 @@
 //    Çarpma,
 //    Bölme,
 //}
+
+//using Methods;
+
+//OgrenciIslemleri ogrenci = new OgrenciIslemleri();
+//ogrenci.SelamVer();
+//ogrenci.SelamVer("Alper");
+//Console.WriteLine($"Yaşınız parametresiz: {ogrenci.yasHesapla()}");
+//Console.WriteLine($"Yaşınız parametreli: {ogrenci.yasHesapla(1995)}");
+
 #endregion
-
+#region 1.Ödev
 using Methods;
+KahveSiparisi kahve = new KahveSiparisi();
 
-OgrenciIslemleri ogrenci = new OgrenciIslemleri();
-ogrenci.SelamVer();
-ogrenci.SelamVer("Alper");
-Console.WriteLine($"Yaşınız parametresiz: {ogrenci.yasHesapla()}");
-Console.WriteLine($"Yaşınız parametreli: {ogrenci.yasHesapla(1995)}");
+Console.Write("Kahve türünü seçin (Türk Kahvesi, Latte, Espresso): ");
+string turu = Console.ReadLine();
+Console.Write("Şeker sayısını girin: ");
+int sekerSayisi = int.Parse(Console.ReadLine());
+Console.Write("Süt ister misiniz? (E/H): ");
+string sutCevap = Console.ReadLine().ToUpper();
+bool sutluMu = (sutCevap == "E");
+
+Console.WriteLine($"{turu} hazırlanıyor...");
+string mesaj = kahve.Hazirla(turu, sekerSayisi, sutluMu);
+Console.WriteLine(mesaj);
+
+double ucret = kahve.UcretiHesapla(turu);
+Console.WriteLine($"Ödenecek tutar: {ucret} TL");
+#endregion
