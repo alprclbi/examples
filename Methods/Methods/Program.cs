@@ -23,7 +23,7 @@
 //    }
 //}
 #endregion
-#region 2. Kısım
+#region 2.Kısım
 //static double DortİslemGeriDonuslu(int sayi1, int sayi2, DortIslem islemTipi)
 //{
 //    switch (islemTipi)
@@ -58,26 +58,61 @@
 //Console.WriteLine($"Yaşınız parametresiz: {ogrenci.yasHesapla()}");
 //Console.WriteLine($"Yaşınız parametreli: {ogrenci.yasHesapla(1995)}");
 
-#endregion
-
 #region 1.Ödev
+//Console.Write("Lütfen kahve türünü seçin: (1 - Turk Kahvesi, 2 - Latte, 3 - Espresso): ");
+//string turu = Console.ReadLine();
+
+//Console.Write("Lutfen seker sayisini girin: ");
+//int sekerSayisi= int.Parse(Console.ReadLine());
+
+//Console.Write("Sut ister misiniz (E/H)?: ");
+//string sutluMu = Console.ReadLine().ToUpper();
+//bool sutVarMi = false;
+//if (sutluMu == "E")
+//{
+//    sutVarMi= true;
+//}
+//switch(turu)
+//{
+//    case "1":
+//        turu = "Turk Kahvesi";
+//        break;
+//    case "2":
+//        turu = "Latte";
+//        break;
+//    case "3":
+//        turu = "Espresso";
+//        break;
+//}
+
+//KahveSiparisi kahve = new KahveSiparisi();
+//Console.WriteLine($"{kahve.Hazirla(turu, sekerSayisi, sutVarMi)}");
+//Console.WriteLine($"Odenecek tutar: {kahve.UcretiHesapla(turu)}");
+
+#endregion
+#region 2.Ödev
+//Market market = new Market();
+//market.FiyatGir();
+#endregion
+#endregion
+#region 3.Kısım
 using Methods;
+using Methods.oop;
 
-KahveSiparisi cagir = new KahveSiparisi();
+// CONSTRUCTUR - DESTRUCTUR
+Araba araba = new Araba("AUDI");
 
-Console.Write("Lütfen kahvenizi seçin(Türk Kahvesi,Latte,Espresso): ");
-string tur = Console.ReadLine();
 
-Console.Write("Şeker sayısını giriniz: ");
-int seker = int.Parse(Console.ReadLine());
+// ENCAPSULATION (KAPSULLEME)
+Ogrenci ogrenci = new Ogrenci();
+ogrenci.a1 = "AHJGKR2";
+ogrenci.a2 = "SDFKTMD";
+ogrenci.harcama = 15000;
 
-Console.Write("Süt ister misiniz(E/H)?: ");
-bool sut = Console.ReadLine().ToLower() == "e";
+Console.WriteLine($"ApiKey: {ogrenci.a1}, ApiSecret: {ogrenci.a2}, Maas: {ogrenci.harcama}");
 
-Console.WriteLine($"{tur} siparişiniz hazırlanıyor...");
-Thread.Sleep(3000);
+//INHERITANCE
 
-string mesaj = cagir.Hazırla(tur, seker, sut);
-Console.WriteLine(mesaj);
-Console.WriteLine($"Ödenecek tutar: {cagir.Hesap(tur)} TL");
+
+
 #endregion
