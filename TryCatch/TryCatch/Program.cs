@@ -1,7 +1,7 @@
 ﻿Baslangic:
 try
 {
-	Console.WriteLine("Lütfen bir sayı giriniz: ");
+	Console.Write("Lütfen bir sayı giriniz: ");
 	int sayi = int.Parse(Console.ReadLine());
 	Console.WriteLine("Girilen değer " + sayi + "");
 }
