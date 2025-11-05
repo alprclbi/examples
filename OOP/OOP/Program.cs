@@ -106,11 +106,11 @@ using System.ComponentModel.Design;
 
 #region Yarisma Programi Odevi
 //TODO: Bilgi yarışması giriş kısmı oluştur ve kulllanıcıdan isim al
-Console.WriteLine("Bilgi Yarışmasına Hoşgeldiniz!");
-Console.Write("Lütfen isminizi giriniz: ");
-string isim = Console.ReadLine();
+//Console.WriteLine("Bilgi Yarışmasına Hoşgeldiniz!");
+//Console.Write("Lütfen isminizi giriniz: ");
+//string isim = Console.ReadLine();
 
-Soru soru = new Soru();
-soru.SoruOlustur();
+//Soru soru = new Soru();
+//soru.SoruOlustur();
 
 #endregion

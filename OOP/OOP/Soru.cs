@@ -80,8 +80,37 @@ namespace OOP
                 }
                 else if (kullaniciCevap == 'J')
                 {
+                    soru.Secenekler.ToList();
+                    string dogruCevap = soru.DogruCevap.ToString();
+                    soru.Secenekler.ToList().Remove(dogruCevap);
                     Random rnd = new Random();
-                    
+                    string randomCevap = soru.Secenekler[rnd.Next(0, 3)];
+                    soru.Secenekler.ToList().Clear();
+                    soru.Secenekler = new string[] { dogruCevap, randomCevap };
+
+                    foreach (var kalanCevap in soru.Secenekler.OrderBy(x => x))
+                    {
+                        Console.WriteLine(kalanCevap);
+                    }
+
+                    Console.Write("\nKalan cevaplar arasından cevabınızı giriniz: ");
+                    char jokerCevap = char.ToUpper(Console.ReadLine()[0]);
+                    if (jokerCevap == soru.DogruCevap)
+                    {
+                        puan += 10;
+                        Console.WriteLine($"Doğru! Toplam puanınız: {puan}");
+                        soruSayisi++;
+                    }
+                    else if (jokerCevap != 'A' & jokerCevap != 'B' & jokerCevap != 'C' & jokerCevap != 'D')
+                    {
+                        Console.WriteLine("\nGeçersiz cevap. Lütfen A, B, C veya D seçeneklerinden birini giriniz.");
+                        goto SoruTekrar;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Yanlış cevap verdiniz! oyun bitti...\n Toplam puanınız: {puan}");
+                        break;
+                    }
                 }
                 else
                 {

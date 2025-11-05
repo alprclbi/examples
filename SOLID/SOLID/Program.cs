@@ -1,4 +1,7 @@
 ﻿#region SINGLE RESPONSIBILITY PRINCIPLE (Tek Sorumluluk)
+using SOLID;
+using SOLID.LiskovSubstitution;
+using SOLID.OpenClosed;
 // Her sinifin tek bir sorumlulugu olmalidir. Bir sinifin degistirilme nedeni sadece bir tane olmalidir.
 //StudentService studentService = new StudentService();
 //studentService.CreateStudent();
@@ -27,7 +30,7 @@
 
 #region INTERFACE SEGREGATION PRINCIPLE
 
-//using SOLID.InterFaceSegregation;
+using SOLID.InterFaceSegregation;
 
 //Human human = new Human();
 //Bird bird = new Bird();
