@@ -13,10 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "library", "library", "{02EA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{84869CCD-4D2A-47BD-9AB8-4134AC4A6FD1}"
 	ProjectSection(SolutionItems) = preProject
+		library\images\elektrik.webp = library\images\elektrik.webp
 		library\images\facebook.png = library\images\facebook.png
 		..\..\..\images.jpeg = ..\..\..\images.jpeg
 		library\images\instagram.png = library\images\instagram.png
 		library\images\linkedin.png = library\images\linkedin.png
+		library\images\mantar.webp = library\images\mantar.webp
+		library\images\mevlut.webp = library\images\mevlut.webp
 		library\images\slider.png = library\images\slider.png
 		library\images\twitter.png = library\images\twitter.png
 		library\images\whatsapp.png = library\images\whatsapp.png
