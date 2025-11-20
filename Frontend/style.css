@@ -1,5 +1,5 @@
 ﻿body {
-    background-color: #cdcdcd;
+    background-color: #030022;
     margin: 0;
     padding: 0;
     min-width: 100vw;
@@ -11,7 +11,7 @@
         width: 960px;
         margin: 0 auto;
         height: auto;
-        background: #ff6a00;
+        background: #0040a0;
     }
 
         body .container .header {
@@ -27,13 +27,12 @@
             }
 
                 body .container .header .logo img {
-                    width: 60px;       
+                    width: 60px;
                 }
 
             body .container .header .menu {
                 margin-left: 10px;
-                width: 825px;
-                float: left;
+                width: 960px;
                 height: 100%;
                 margin: 0 0 0 0;
             }
@@ -42,6 +41,7 @@
                     display: flex;
                     justify-content: flex-end;
                 }
+
                     /*ul = listenin kutusu, li = listenin maddeleri' */
                     body .container .header .menu ul li {
                         list-style: none;
@@ -61,37 +61,56 @@
 
         body .container .slider {
             margin: 10px 0 10px 0;
-            width: 100%;
+            width: 960px;
+            background: #0040a0;
         }
 
-            body .container .slider .smallslider ul {
-                display: flex;
-                justify-content: center;
-                gap: 50px;
+            body .container .slider ul {
+                list-style: none;
                 padding: 0;
                 margin: 0;
-                list-style: none;
             }
+
+                body .container .slider ul li {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
+
+            body .container .slider img {
+                width: 100%;
+            }
+
+            body .container .slider .smallslider {
+                width: 100%;
+            }
+
+                body .container .slider .smallslider ul {
+                    display: flex;
+                    justify-content: center;
+                    gap: 3px;
+                    padding: 0 3px 0 3px;
+                    margin: 0;
+                    list-style: none;
+                }
 
             body .container .slider .slidertext {
                 width: 90%;
                 margin: 10px auto 0 auto;
                 justify-content: center;
-                align-items: center; 
+                align-items: center;
                 gap: 10px;
-                font-size: 18px;
+                font-size: 25px;
+                color: #ff0000;
+                display: flex;
             }
-
-                body .container .slider .slidertext .title {
-                    font-weight: bold;
-                    color: #000;
-                }
 
         body .container .footer {
             width: 100%;
             height: 30px;
             display: flex;
             align-items: center;
+            color: #0040a0;
         }
 
             body .container .footer .sublinks {
