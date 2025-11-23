@@ -5,6 +5,7 @@
     min-width: 100vw;
     overflow-x: hidden;
     font-family: 'Segoe UI';
+    transition: background-color 3s ease;
 }
 
     body .container {

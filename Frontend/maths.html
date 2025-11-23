@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <input id="nameInput" type="text" placeholder="Adınız Soyadınız" />
+    <button onclick="showName()">Goster</button>
+    <p id="output"></p>
+
+    <div>
+        <h2>Matematiksel Islemler</h2>
+        <input type="number" id="sayi1" placeholder="Sayi 1" />
+        <input type="number" id="sayi2" placeholder="Sayi 2" />
+        <br />
+        <button onclick="topla()">Topla</button>
+        <button onclick="cikar()">Cikart</button>
+        <button onclick="carp()">Carpma</button>
+        <button onclick="bolme()">Bolme</button>
+        <br />
+        <p id="result"></p>
+        <br />
+        <h3>Sayac</h3>
+        <p id="count"></p>
+        <button onclick="arttir()">Artir</button>
+        <button onclick="azalt()">Azalt</button>
+        <h3>Random</h3>
+        <p id="randomValue"></p>
+        <button onclick="generateRandomNumber()">Rastgele Sayi Uret</button>
+    </div>
+    <script>
+        function showName() { // fonksiyon tanimla
+            const name = document.getElementById("nameInput").value; // input alanindan degeri al
+            if (name == "") {
+                alert("Deger bos gecilemez"); // uyari ver
+                return;
+            }
+            else {
+                document.getElementById("output").innerHTML = "Merhaba " + name + "!"; // sonucu goster, hangi id ise ona tanimla innerHTML  text icindeki degeri fontunu rengini ayarlayabilriz
+            }
+        }
+        function topla() {
+            const sayi1 = Number(document.getElementById("sayi1").value);
+            const sayi2 = Number(document.getElementById("sayi2").value);
+            document.getElementById("result").innerText = "Toplam: " + (sayi1 + sayi2); // innerText sadece text degerini alir
+        }
+        function cikar() {
+            const sayi1 = Number(document.getElementById("sayi1").value);
+            const sayi2 = Number(document.getElementById("sayi2").value);
+            document.getElementById("result").innerText = "Toplam: " + (sayi1 - sayi2);
+        }
+        function carp() {
+            const sayi1 = Number(document.getElementById("sayi1").value);
+            const sayi2 = Number(document.getElementById("sayi2").value);
+            document.getElementById("result").innerText = "Toplam: " + (sayi1 * sayi2);
+        }
+        function bolme() {
+            const sayi1 = Number(document.getElementById("sayi1").value);
+            const sayi2 = Number(document.getElementById("sayi2").value);
+            document.getElementById("result").innerText = "Toplam: " + (sayi1 / sayi2);
+        }
+
+        let sayac = 0; //lets global degisken
+        function arttir() {
+            sayac++;
+            document.getElementById("count").innerHTML = "<strong style='color:#00c61c; font-size:14px'>" + sayac + "</strong>";
+        }
+        function azalt() {
+            sayac--;
+            document.getElementById("count").innerHTML = "<strong style='color:#b51e1e; font-size:14px'>" + sayac + "</strong>";
+        }
+
+        function generateRandomNumber() {
+            const rnd = Math.floor(Math.random() * 100);
+            document.getElementById("randomValue").innerHTML = "<strong style='color:#FF0000; font-size:18px'>" + rnd + "</strong>";
+        }
+
+        function toplama(sayi1, sayi2) {
+            return sayi1 + sayi2;
+        }
+        console.log('Toplama isleminin sonucu --> ' + toplama(4,6));
+    </script>
+</body>
+</html>
+
+<!--responsive uyumlu demek hem mobil de hem webde uyumlu demek-->
