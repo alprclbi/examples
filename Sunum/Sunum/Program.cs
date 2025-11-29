@@ -25,12 +25,11 @@ using Sunum.SingleResponsibility;
 
 #region Liskov Substitution Principle
 
-Kanarya kanarya = new Kanarya();
-kanarya.Uc();
+//Kanarya kanarya = new Kanarya();
+//kanarya.Uc();
 
-Tavuk tavuk = new Tavuk();
-tavuk.Uc();
-
+//Tavuk tavuk = new Tavuk();
+//tavuk.Uc();
 
 
 //Bmw bmw = new Bmw();
@@ -49,11 +48,7 @@ tavuk.Uc();
 #endregion
 
 #region Dependency Inversion Principle
-using Sunum.DependencyInversion;
-OdemeIslemcisi odemeIslemcisi = new OdemeIslemcisi(new Sunum.DependencyInversion.KrediKartiOdeme());
-odemeIslemcisi.OdemeYap();
+//using Sunum.DependencyInversion;
+//OdemeIslemcisi odemeIslemcisi = new OdemeIslemcisi(new Sunum.DependencyInversion.KrediKartiOdeme());
+//odemeIslemcisi.OdemeYap();
 #endregion
-
-
-
-
