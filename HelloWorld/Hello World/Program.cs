@@ -1021,5 +1021,3 @@ Console.WriteLine($"\nTahmin hakkın bitti !! :( Doğru sayı {gizliSayi}");
 
 #endregion
 #endregion
-
-Console.WriteLine("test");
