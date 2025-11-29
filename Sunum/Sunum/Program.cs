@@ -52,3 +52,4 @@ using Sunum.SingleResponsibility;
 //OdemeIslemcisi odemeIslemcisi = new OdemeIslemcisi(new Sunum.DependencyInversion.KrediKartiOdeme());
 //odemeIslemcisi.OdemeYap();
 #endregion
+
