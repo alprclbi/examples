@@ -1,0 +1,63 @@
+﻿@{
+	ViewData["Title"] = "Chelebi Outdoor Sports";
+}
+<p>
+<p class="d-flex justify-content-center gap-3">
+	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" aria-expanded="false" aria-controls="multiCollapseExample1">Erkek</a>
+	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Kadın</a>
+	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Çocuk</a>
+	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Kamp</a>
+	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Kayak</a>
+	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Dağcılık</a>
+	<a class="btn btn-dark" asp-controller="Product" aspdata-bs-toggle="collapse" style="color: white;" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Ürün Listesi</a>
+</p>
+
+<div id="carouselExample" class="carousel slide m-1">
+	<div class="carousel-inner">
+		<div class="carousel-item active">
+			<img src="~/images/kamp.png" class="d-block w-100" style="height: 750px; object-fit: cover;">
+		</div>
+		<div class="carousel-item">
+			<img src="~/images/kayak.png" class="d-block w-100" style="height: 750px; object-fit: cover;">
+		</div>
+		<div class="carousel-item">
+			<img src="~/images/dagcilik.png" class="d-block w-100" style="height: 750px; object-fit: cover;">
+		</div>
+	</div>
+	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Previous</span>
+	</button>
+	<button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+		<span class="visually-hidden">Next</span>
+	</button>
+</div>
+
+<p>
+<p class="d-flex justify-content-center gap-5">
+	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" aria-expanded="false" aria-controls="multiCollapseExample1">Yeni Ürünler</a>
+	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">Popüler Ürünler</a>
+</p>
+
+<div class="d-flex justify-content-center gap-5">
+	<div class="card" style="width: 18rem;">
+		<img src="~/images/cadır.webp" class="card-img-top" alt="...">
+		<div class="card-body">
+			<p class="card-text">HUSKY BOLEN YESIL 4 DURAL KISILIK CADIR <br /><strong>21.999 TL</strong></p>
+		</div>
+	</div>
+	<div class="card" style="width: 18rem;">
+		<img src="~/images/gozluk.webp" class="card-img-top" alt="...">
+		<div class="card-body">
+			<p class="card-text">OAKLEY TARGET LINE L SNOW GOGGLES UNISEX KAYAK GÖZLÜĞÜ	<br /><strong>3.999 TL</strong> </p>
+		</div>
+	</div>
+	<div class="card" style="width: 18rem;">
+		<img src="~/images/palet.webp" class="card-img-top" alt="...">
+		<div class="card-body">
+			<p class="card-text">BEUCHAT Palet Açık AQUABIONIC EVO<br /><strong>8.999 TL</strong></p>
+		</div>
+	</div>
+</div>
+

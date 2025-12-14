@@ -1,0 +1,38 @@
+﻿@using MVC.Models.ViewModels
+
+@{
+	ViewData["Title"] = "Ürün Listesi";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container text-center">
+	<h1>Ürün Listesi</h1>
+</div>
+
+@model List<Product>
+
+<p><a class="link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" asp-controller="Product" asp-action="Create">Ürün Ekle</a></p>
+
+<table class="table">
+	<thead class="table-dark">
+		<tr>
+			<th scope="col">Id</th>
+			<th scope="col">Ürün Adı</th>
+			<th scope="col">İşlem</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var product in Model)
+		{
+			<tr>
+				<td>@product.Id</td>
+				<td>@product.Name</td>
+				<td>
+					<a href="/Product/Update/@product.Id" class="btn btn-dark">Güncelle</a>
+					<a href="/Product/Delete/@product.Id" class="btn btn-danger">Sil</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+

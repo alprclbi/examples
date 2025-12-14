@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\images\dagcilik.png" />
+    <Content Remove="wwwroot\images\kamp.png" />
+    <Content Remove="wwwroot\images\kayak.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.22" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\images\dagcilik.png" />
+    <None Include="wwwroot\images\kamp.png" />
+    <None Include="wwwroot\images\kayak.png" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - MVC</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/MVC.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+	<!--HEADER-->
+	<header>
+		<nav class="navbar bg-body-tertiary bg-dark" style="color: white;">
+			<div class="container-fluid">
+				<a class="navbar-brand" asp-controller="Home" style="color: white;">Chelebi Outdoor Sports</a>
+				<form class="d-flex" role="search">
+					<input class="form-control me-2" type="search" style="color: white;" placeholder="Arama" aria-label="Arama" />
+					<button class="btn btn-outline-success" style="color: white;" type="submit">Arama</button>
+				</form>
+			</div>
+		</nav>
+	</header>
+
+	<!--SLIDER-->
+	<main role="main" class="pb-3">
+		@RenderBody()
+	</main>
+
+	<!--FOOTER-->
+	<footer class="border-top footer text-muted">
+		<div class="container d-flex flex-wrap justify-content-between align-items-center">
+			<p class="col-md-4 mb-0 text-white">© 2025 Chelebi Software Academy</p>
+			<a href="#" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 text-white text-decoration-none">
+				<span class="fs-5 fw-bold">CHELEBI SOFTWARE ACADEMY</span>
+			</a>
+			<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+				<li class="ms-3">
+					<a href="#">
+						<img src="~/images/instagram.png" width="35" height="35" class="footer-icon" alt="Instagram" />
+					</a>
+				</li>
+				<li class="ms-3">
+					<a href="#">
+						<img src="~/images/facebook.png" width="35" height="35" class="footer-icon" alt="Facebook" />
+					</a>
+				</li>
+			</ul>
+		</div>
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
