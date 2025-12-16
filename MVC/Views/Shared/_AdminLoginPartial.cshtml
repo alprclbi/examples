@@ -1,5 +1,5 @@
 ﻿@model MVC.Models.ViewModels.AdminViewModel
-
+@*AdminViewModel'i layouta bağlayınca program hata verdiği için partial view yapıldı. kullanılaca form ve kontroler buraya taşındı. Layoutta çağıralacak*@
 @{
 	@if (TempData["LoginError"] != null)
 	{
@@ -15,7 +15,7 @@
 		<div class="d-flex align-items-center gap-2" style="color: white;">
 			<span>Merhaba, Alper</span>
 
-			@* 💡 Buraya Logout Aksiyonunu tetikleyecek Form gelecek *@
+			@* Buraya Logout Aksiyonunu tetikleyecek Form gelecek *@
 			<form asp-controller="Admin" asp-action="Logout" method="post">
 				@Html.AntiForgeryToken()
 				<button type="submit" class="btn btn-danger btn-sm">Çıkış</button>
@@ -24,7 +24,7 @@
 	}
 	else
 	{
-		// Giriş yapılmamışsa, mevcut formunuz burada olacak
+		// Giriş yapılmamışsa, formun görünecek kısmı
 		<form method="post" asp-controller="Admin" asp-action="Login" class="d-flex flex-column">
 			<div class="d-flex align-items-center gap-2 mb-1">
 				<input asp-for="Username" type="text" class="form-control form-control-sm" placeholder="Kullanıcı Adı" aria-label="Kullanıcı Adı" style="width: 150px;">
@@ -40,7 +40,5 @@
 			</div>
 		</form>
 	}
-	
-
 }
 
