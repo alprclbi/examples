@@ -28,7 +28,13 @@ namespace MVC.Controllers
         #region READ 
         public IActionResult Index()
         {
+            string adminCookie = Request.Cookies["admin"];
+            if (string.IsNullOrEmpty(adminCookie))
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View(_products);
+
         }
         #endregion
 

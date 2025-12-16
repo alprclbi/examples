@@ -1,15 +1,14 @@
 ﻿@using MVC.Models.ViewModels
-
+@model List<Product>
 @{
 	ViewData["Title"] = "Ürün Listesi";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="container text-center">
+	<h1>Admin Paneline Hoşgeldin Alper Çelebi</h1>
 	<h1>Ürün Listesi</h1>
 </div>
-
-@model List<Product>
 
 <p><a class="btn btn-dark" asp-controller="Product" asp-action="Create">Ürün Ekle</a></p>
 

@@ -1,0 +1,46 @@
+﻿@model MVC.Models.ViewModels.AdminViewModel
+
+@{
+	@if (TempData["LoginError"] != null)
+	{
+		// TempData boş değilse (yani Controller'dan bir hata mesajı gelmişse)
+		<div class="alert alert-danger mb-2" role="alert">
+			@TempData["LoginError"]
+		</div>
+	}
+	string adminUsername = Context.Request.Cookies["admin"];
+	@if (adminUsername != null)
+	{
+		// Giriş yapılmışsa görünecek kısım
+		<div class="d-flex align-items-center gap-2" style="color: white;">
+			<span>Merhaba, Alper</span>
+
+			@* 💡 Buraya Logout Aksiyonunu tetikleyecek Form gelecek *@
+			<form asp-controller="Admin" asp-action="Logout" method="post">
+				@Html.AntiForgeryToken()
+				<button type="submit" class="btn btn-danger btn-sm">Çıkış</button>
+			</form>
+		</div>
+	}
+	else
+	{
+		// Giriş yapılmamışsa, mevcut formunuz burada olacak
+		<form method="post" asp-controller="Admin" asp-action="Login" class="d-flex flex-column">
+			<div class="d-flex align-items-center gap-2 mb-1">
+				<input asp-for="Username" type="text" class="form-control form-control-sm" placeholder="Kullanıcı Adı" aria-label="Kullanıcı Adı" style="width: 150px;">
+
+				<input asp-for="Password" type="password" class="form-control form-control-sm" placeholder="Parola" aria-label="Parola" style="width: 120px;">
+
+				<button type="submit" class="btn btn-secondary">Giriş</button>
+			</div>
+
+			<div class="form-check m-0 align-self-start">
+				<input type="checkbox" asp-for="RememberMe" class="form-check-input" id="rememberMe">
+				<label class="form-check-label" for="rememberMe" style="color: white; font-size: 0.8rem;">Beni Hatırla</label>
+			</div>
+		</form>
+	}
+	
+
+}
+
