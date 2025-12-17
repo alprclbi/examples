@@ -1,5 +1,5 @@
 ﻿@model MVC.Models.ViewModels.AdminViewModel
-@*AdminViewModel'i layouta bağlayınca program hata verdiği için partial view yapıldı. kullanılaca form ve kontroler buraya taşındı. Layoutta çağıralacak*@
+@*AdminViewModel'i layouta bağlayınca program hata verdiği için partial view yapıldı. kullanılaca form ve kontroller buraya taşındı. Layoutta çağıralacak*@
 @{
 	@if (TempData["LoginError"] != null)
 	{
@@ -8,7 +8,10 @@
 			@TempData["LoginError"]
 		</div>
 	}
+	// Cookie'de "admin" adındaki cookie'ye değer atandı
 	string adminUsername = Context.Request.Cookies["admin"];
+
+	//Cookie'de admin degeri bos degilse admin girişi yapılmış demektir
 	@if (adminUsername != null)
 	{
 		// Giriş yapılmışsa görünecek kısım
@@ -17,7 +20,6 @@
 
 			@* Buraya Logout Aksiyonunu tetikleyecek Form gelecek *@
 			<form asp-controller="Admin" asp-action="Logout" method="post">
-				@Html.AntiForgeryToken()
 				<button type="submit" class="btn btn-danger btn-sm">Çıkış</button>
 			</form>
 		</div>

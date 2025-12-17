@@ -6,17 +6,17 @@ namespace MVC.Controllers
 {
     public class AdminController : Controller
     {
-        // Admın ve parola sabit property tanımladık.
+        // Admin ve parola sabit property tanımladık.
         private static string Admin = "admin";
         private static string Password = "123";
 
         // Giriş işlemi için POST metodu oluşturuldu.
         [HttpPost]
-        public IActionResult Login(AdminViewModel model) //AdminViewModel kullanılarak parametre alındı.
+        public IActionResult Login(AdminViewModel model) //AdminViewModel post edildi parametre olarak alındı.
         {
             if (!ModelState.IsValid)
             {
-                //Attiribute ile doğrulama vardı ama Redirect yaparken ModelState kayboluyor. Oyüzden TempData kullanıldı.
+                //Attiribute ile doğrulama vardı ama Redirect yaparken ModelState kayboluyor. O yüzden TempData kullanıldı.
                 TempData["LoginError"] = "Kullanıcı adı veya şifre boş bırakılamaz.";
                 return RedirectToAction("Index", "Home");
             }
@@ -32,9 +32,9 @@ namespace MVC.Controllers
                 // RememberMe seçeneği işaretlendiyse cookie süresi uzatıldı.
                 if (model.RememberMe)
                 {
-                    cookieOptions.Expires = DateTimeOffset.UtcNow.AddDays(7);
+                    cookieOptions.Expires = DateTimeOffset.UtcNow.AddMinutes(60);
                 }
-                // Cookie oluşturma
+                // Cookie eklendi.
                 Response.Cookies.Append("admin", model.Username, cookieOptions);
 
                 return RedirectToAction("Index", "Home");
@@ -47,7 +47,6 @@ namespace MVC.Controllers
 
         // Çıkış işlemi için POST metodu oluşturuldu.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Logout()
         {
             // Cookie silme işlemi

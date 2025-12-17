@@ -4,7 +4,7 @@ namespace MVC.Models.ViewModels
 {
     public class AdminViewModel
     {
-        //Kullanıcı adı, şifre ve beni hatırla propertyleri tanımla. statik değil. statik değerler AminController'da olacak. Çünkü Attirubute verilmiyor.
+        //Kullanıcı adı, şifre ve beni hatırla propertyleri tanımla. statik değil. statik değerler AdminController'da olacak. Çünkü sabit bir degere attirbute vermek mantıklı değil.
         [Required]
         public string Username { get; set; }
 
