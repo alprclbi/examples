@@ -28,6 +28,7 @@ namespace MVC.Controllers
         #region READ 
         public IActionResult Index()
         {
+            // Admin cookie kontrolü
             string adminCookie = Request.Cookies["admin"];
             if (string.IsNullOrEmpty(adminCookie))
             {
