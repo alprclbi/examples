@@ -1,64 +1,79 @@
-ï»¿@{
+@using Project_Development.Models
+@{
+
 	ViewData["Title"] = "Celebi Outdoor Sports";
+
 }
+@model (List<Category>, List<Product>)
 <p>
-<p class="d-flex justify-content-center gap-3">
-	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" aria-expanded="false" aria-controls="multiCollapseExample1">Erkek</a>
-	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">KadÄ±n</a>
-	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Ã‡ocuk</a>
-	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Kamp</a>
-	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">Kayak</a>
-	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target=".multi-collapse" aria-expanded="false" aria-controls="multiCollapseExample1 multiCollapseExample2">DaÄŸcÄ±lÄ±k</a>
-	<!--Partial View KullanÄ±ldÄ± MÃ¼ÅŸteri Butonu Ve ÃœrÃ¼nler Listesi Oturum KontrolÃ¼ne gÃ¶re admin ise gÃ¶sterilecek-->
-	<partial name="ForAdminButtonPartial" />
+	<div class="d-flex justify-content-center gap-3 mb-4">
+
+		<div class="dropdown">
+			<button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				Kategoriler
+			</button>
+			<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+				@* Sadece ana kategorileri göster (ParentId'si null/boþ olanlar) *@
+				@{
+					var categories = Model.Item1
+						.Where(c => string.IsNullOrEmpty(c.ParentId))
+						.ToList();
+				}
+
+				@foreach (var mainCategory in categories)
+				{
+				    <h6 class="dropdown-header" style="color: black">@mainCategory.Name</h6>
+
+				    @foreach (var subCategory in Model.Item1.Where(c => !string.IsNullOrEmpty(c.ParentId) && c.ParentId == mainCategory.Id.ToString()))
+				    {
+				        <a class="dropdown-item" href="#" style="padding-left: 2rem;">
+				            @subCategory.Name
+				        </a>
+				    }
+
+				    <hr class="dropdown-divider" />
+				}
+			</div>
+		</div>
+
+		<!-- Ana kategorileri buton olarak göster -->
+		@{
+			var mainCategoriesButtons = Model.Item1
+				.Where(c => string.IsNullOrEmpty(c.ParentId))
+				.ToList();
+		}
+
+		@foreach (var category in mainCategoriesButtons)
+		{
+			<a class="btn btn-dark" style="color: white;" href="#">
+				@category.Name
+			</a>
+		}
+	</div>
+	<!-- Slider Kategori Fotoðraflarý -->
+	<div id="carouselExample" class="carousel slide m-1" data-bs-ride="carousel">
+		<div class="carousel-inner">
+			@foreach(var sliderC in Model.Item1.Take(5))
+			{
+				@* Sadece ilk item "active" class'ý ile baþlar (sliderýn ilk açýlýþta görünmesi için) *@
+				var isActive = sliderC == Model.Item1.First() ? "active" : "";
+				<div class="carousel-item @isActive">
+					<img src="@sliderC.ImgUrl" class="d-block w-100" style="height: 750px; object-fit: cover;" >
+					<div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+						<h5>@sliderC.Name</h5>
+						<p>@sliderC.Description</p>
+					</div>
+				</div>
+			}
+		</div>
+		<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Next</span>
+		</button>
+	</div>
+
 </p>
-
-<div id="carouselExample" class="carousel slide m-1">
-	<div class="carousel-inner">
-		<div class="carousel-item active">
-			<img src="~/images/kamp.png" class="d-block w-100" style="height: 750px; object-fit: cover;">
-		</div>
-		<div class="carousel-item">
-			<img src="~/images/kayak.png" class="d-block w-100" style="height: 750px; object-fit: cover;">
-		</div>
-		<div class="carousel-item">
-			<img src="~/images/dagcilik.png" class="d-block w-100" style="height: 750px; object-fit: cover;">
-		</div>
-	</div>
-	<button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		<span class="visually-hidden">Previous</span>
-	</button>
-	<button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-		<span class="carousel-control-next-icon" aria-hidden="true"></span>
-		<span class="visually-hidden">Next</span>
-	</button>
-</div>
-
-<p>
-<p class="d-flex justify-content-center gap-5">
-	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" aria-expanded="false" aria-controls="multiCollapseExample1">Yeni ÃœrÃ¼nler</a>
-	<a class="btn btn-dark" data-bs-toggle="collapse" style="color: white;" data-bs-target="#multiCollapseExample2" aria-expanded="false" aria-controls="multiCollapseExample2">PopÃ¼ler ÃœrÃ¼nler</a>
-</p>
-
-<div class="d-flex justify-content-center gap-5">
-	<div class="card" style="width: 18rem;">
-		<img src="~/images/cadÄ±r.webp" class="card-img-top" alt="...">
-		<div class="card-body">
-			<p class="card-text">HUSKY BOLEN YESIL 4 DURAL KISILIK CADIR <br /><strong>21.999 TL</strong></p>
-		</div>
-	</div>
-	<div class="card" style="width: 18rem;">
-		<img src="~/images/gozluk.webp" class="card-img-top" alt="...">
-		<div class="card-body">
-			<p class="card-text">OAKLEY TARGET LINE L SNOW GOGGLES UNISEX KAYAK GÃ–ZLÃœÄžÃœ	<br /><strong>3.999 TL</strong> </p>
-		</div>
-	</div>
-	<div class="card" style="width: 18rem;">
-		<img src="~/images/palet.webp" class="card-img-top" alt="...">
-		<div class="card-body">
-			<p class="card-text">BEUCHAT Palet AÃ§Ä±k AQUABIONIC EVO<br /><strong>8.999 TL</strong></p>
-		</div>
-	</div>
-</div>
-

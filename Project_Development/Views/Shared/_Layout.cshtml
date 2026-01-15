@@ -1,49 +1,77 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Project_Development</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Project_Development.styles.css" asp-append-version="true" />
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - Celebi Outdoor Sports</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/MVC.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Project_Development</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+	<header>
+		<nav class="navbar bg-body-tertiary bg-dark" style="color: white;">
+			<div class="container-fluid">
+				<div class="row w-100 align-items-center">
+					<!-- Sol taraf: Logo -->
+					<div class="col-4">
+						<a class="navbar-brand" asp-controller="Home" asp-action="Index" style="color: white;">Celebi Outdoor Sports</a>
+					</div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - Project_Development - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+					<!-- Orta taraf: Arama Kutusu -->
+					<div class="col-4 d-flex justify-content-center">
+						<form class="d-flex gap-2" role="search">
+							<input class="form-control" type="search" style="color: white; width: 350px;" placeholder="Arama" aria-label="Arama" />
+							<button class="btn btn-outline-success" style="color: white;" type="submit">Arama</button>
+						</form>
+					</div>
+
+					<!-- Sağ taraf: Giriş Formu -->
+					<div class="col-4 d-flex justify-content-end">
+						<form method="post" asp-controller="Admin" asp-action="Login" class="d-flex align-items-start gap-2">
+							<div class="d-flex flex-column">
+								<input type="text" class="form-control form-control-sm mb-1" placeholder="Kullanıcı Adı" aria-label="Kullanıcı Adı" style="width: 150px;">
+								<div class="form-check m-0">
+									<input type="checkbox" class="form-check-input" id="rememberMe">
+									<label class="form-check-label" for="rememberMe" style="color: white; font-size: 0.8rem;">Beni Hatırla</label>
+								</div>
+							</div>
+							<input type="password" class="form-control form-control-sm" placeholder="Parola" aria-label="Parola" style="width: 120px;">
+							<button type="submit" class="btn btn-secondary btn-sm">Giriş</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<!--SLIDER-->
+	<main role="main" class="pb-3">
+		@RenderBody()
+	</main>
+
+	<!--FOOTER-->
+	<footer class="border-top footer text-muted">
+		<div class="container d-flex flex-wrap justify-content-between align-items-center">
+			<p class="col-md-4 mb-0 text-white"></p>
+			<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+				<li class="ms-3">
+					<a href="#">
+						<img src="~/images/instagram.png" width="35" height="35" class="footer-icon" alt="Instagram" />
+					</a>
+				</li>
+				<li class="ms-3">
+					<a href="#">
+						<img src="~/images/facebook.png" width="35" height="35" class="footer-icon" alt="Facebook" />
+					</a>
+				</li>
+			</ul>
+		</div>
+	</footer>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
