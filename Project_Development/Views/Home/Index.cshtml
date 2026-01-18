@@ -8,39 +8,42 @@
 <p>
 	<div class="d-flex justify-content-center gap-3 mb-4">
 
+		<!-- Kategoriler Dropdown -->
 		<div class="dropdown">
 			<button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				Kategoriler
 			</button>
 			<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-				@* Sadece ana kategorileri göster (ParentId'si null/boþ olanlar) *@
+				@* Sadece ana kategorileri listele (ParentId'si null/boþ olanlar) *@
 				@{
 					var categories = Model.Item1
-						.Where(c => string.IsNullOrEmpty(c.ParentId))
-						.ToList();
+					.Where(c => string.IsNullOrEmpty(c.ParentId))
+					.ToList();
 				}
 
+				@*Ana Kategorileri göstermek için foreach döngüsü kullandýk*@
 				@foreach (var mainCategory in categories)
 				{
-				    <h6 class="dropdown-header" style="color: black">@mainCategory.Name</h6>
+					<h6 class="dropdown-header" style="color: black">@mainCategory.Name</h6>
 
-				    @foreach (var subCategory in Model.Item1.Where(c => !string.IsNullOrEmpty(c.ParentId) && c.ParentId == mainCategory.Id.ToString()))
-				    {
-				        <a class="dropdown-item" href="#" style="padding-left: 2rem;">
-				            @subCategory.Name
-				        </a>
-				    }
+					@* Alt kategorileri listele (Foreach içerisinde kontrol yaparak Alt Kategorilerin ParentID si ile ana kategorilerin IDleri ayný olup olmadýðý kontrolüne bakarak listelenir ) *@
+					@foreach (var subCategory in Model.Item1.Where(c => c.ParentId == mainCategory.Id.ToString()))
+					{
+						<a class="dropdown-item" href="#" style="padding-left: 2rem;">
+							@subCategory.Name
+						</a>
+					}
 
-				    <hr class="dropdown-divider" />
+					<hr class="dropdown-divider" />
 				}
 			</div>
 		</div>
 
-		<!-- Ana kategorileri buton olarak göster -->
+		<!-- Ana kategorileri buton olarak gster -->
 		@{
 			var mainCategoriesButtons = Model.Item1
-				.Where(c => string.IsNullOrEmpty(c.ParentId))
-				.ToList();
+			.Where(c => string.IsNullOrEmpty(c.ParentId))
+			.ToList();
 		}
 
 		@foreach (var category in mainCategoriesButtons)
@@ -50,15 +53,16 @@
 			</a>
 		}
 	</div>
-	<!-- Slider Kategori Fotoðraflarý -->
+
+	<!-- Slider Kategori Fotoraflar -->
 	<div id="carouselExample" class="carousel slide m-1" data-bs-ride="carousel">
 		<div class="carousel-inner">
-			@foreach(var sliderC in Model.Item1.Take(5))
+			@foreach (var sliderC in Model.Item1.Take(5))
 			{
-				@* Sadece ilk item "active" class'ý ile baþlar (sliderýn ilk açýlýþta görünmesi için) *@
+				@* Sadece ilk item "active" class' ile baslar (slidern ilk alta grnmesi iin) *@
 				var isActive = sliderC == Model.Item1.First() ? "active" : "";
 				<div class="carousel-item @isActive">
-					<img src="@sliderC.ImgUrl" class="d-block w-100" style="height: 750px; object-fit: cover;" >
+					<img src="@sliderC.ImgUrl" class="d-block w-100" style="height: 750px; object-fit: cover;">
 					<div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
 						<h5>@sliderC.Name</h5>
 						<p>@sliderC.Description</p>
@@ -75,5 +79,23 @@
 			<span class="visually-hidden">Next</span>
 		</button>
 	</div>
-
 </p>
+
+<!--Kartlarýn görüneceði kýsým-->
+<div class="d-flex justify-content-center gap-5">
+	@foreach (var productCard in Model.Item2.Where(p => p.Id == 1 || p.Id == 15 || p.Id == 19)) @*3 kart var o yüzden hangi ürün listelenecekse burda kontrol yaptýk*@
+	{
+		var image = productCard.ProductImages.FirstOrDefault(x => x.IsCurrent && x.IsActive); @*Görsel iscurrent true olan ve aktif olan kontrolü yaparak deðiþke atadýk*@
+
+		<div class="card" style="width: 20rem;">
+			<img class="card-img-top" src="@image?.ImageUrl" alt="@productCard.Name" style="height: 250px;">
+			<div class="card-body">
+				<h5 class="card-title">@productCard.Name</h5>
+				<p class="card-text">@productCard.ShortDescription</p>
+				<p class="card-text"><strong>Fiyat: @productCard.Price.ToString("C2")</strong></p> @*C2 para birimi için kullanýldý*@
+				<a asp-controller="Home" asp-action="ProductDetail" asp-route-id="@productCard.Id" class="btn btn-dark">Detaylar</a>
+				<a href="#" class="btn btn-outline-dark">Sepete Ekle</a>
+			</div>
+		</div>
+	}
+</div>

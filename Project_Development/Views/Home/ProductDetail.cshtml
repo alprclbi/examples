@@ -1,0 +1,173 @@
+﻿@model Project_Development.Models.Product
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container my-5">
+    <!-- Navigasyon -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
+            <li class="breadcrumb-item"><a href="#">@Model.Category?.Name</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Ürün Görselleri -->
+        <div class="col-lg-6">
+            <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner rounded">
+                    @{
+                        var activeImages = Model.ProductImages.Where(img => img.IsActive).ToList();
+                        for (int i = 0; i < activeImages.Count; i++)
+                        {
+                            var isActive = i == 0 ? "active" : "";
+                            <div class="carousel-item @isActive">
+                                <img src="@activeImages[i].ImageUrl" class="d-block w-100" alt="@Model.Name" style="height: 500px; object-fit: cover;">
+                            </div>
+                        }
+                    }
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Önceki</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Sonraki</span>
+                </button>
+            </div>
+
+            <!-- Küçük resim Görselleri -->
+            <div class="d-flex gap-2 mt-3 overflow-auto">
+                @foreach (var img in activeImages)
+                {
+                    <img src="@img.ImageUrl" class="img-thumbnail" style="width: 100px; height: 100px; object-fit: cover; cursor: pointer;"
+                         data-bs-target="#productCarousel" data-bs-slide-to="@activeImages.IndexOf(img)" alt="@Model.Name">
+                }
+            </div>
+        </div>
+
+        <!-- Ürün Detayları -->
+        <div class="col-lg-6">
+            <h1 class="mb-3">@Model.Name</h1>
+
+            @if (Model.Brand != null)
+            {
+                <p class="text-muted">Marka: <strong>@Model.Brand.Name</strong></p>
+            }
+
+            <div class="mb-3">
+                <h2 class="text-danger fw-bold">@Model.Price.ToString("C2")</h2>
+            </div>
+
+            <p class="lead">@Model.ShortDescription</p>
+
+            <!-- Renk Seçimi -->
+            @if (Model.ProductColors.Any()) @*Any koleksiyonda eleman olup olmadığını kontrol eder*@
+            {
+                <div class="mb-4">
+                    <h5>Renk Seçin:</h5>
+                    <div class="d-flex gap-2">
+                        @foreach (var productColor in Model.ProductColors)
+                        {
+                            <button class="btn btn-outline-secondary" type="button">
+                                @productColor.Color?.Name
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Beden Seçimi -->
+            @if (Model.ProductSizes.Any())
+            {
+                <div class="mb-4">
+                    <h5>Beden Seçin:</h5>
+                    <div class="d-flex gap-2">
+                        @foreach (var productSize in Model.ProductSizes)
+                        {
+                            <button class="btn btn-outline-secondary" type="button">
+                                @productSize.Size?.Name
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+
+            <!-- Miktar ve Sepete Ekle -->
+            <div class="mb-4">
+                <div class="input-group mb-3" style="max-width: 200px;">
+                    <button class="btn btn-outline-secondary" type="button">-</button>
+                    <input type="number" class="form-control text-center" value="1" min="1">
+                    <button class="btn btn-outline-secondary" type="button">+</button>
+                </div>
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex">
+                <button class="btn btn-dark btn-lg flex-fill" type="button">
+                    <i class="bi bi-cart-plus"></i> Sepete Ekle </button>
+            </div>
+
+            <!-- Ürün Özellikleri -->
+            @if (Model.ProductProperties.Any())
+            {
+                <div class="mt-4">
+                    <h5>Ürün Özellikleri:</h5>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var property in Model.ProductProperties)
+                        {
+                            <li class="list-group-item">
+                                <strong>@property.Attr:</strong> @property.Value
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Ürün Açıklaması -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="productTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">
+                        Açıklama
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="specifications-tab" data-bs-toggle="tab" data-bs-target="#specifications" type="button" role="tab">
+                        Özellikler
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content border border-top-0 p-4" id="productTabContent">
+                <div class="tab-pane fade show active" id="description" role="tabpanel">
+                    <p>@Model.Description</p>
+                </div>
+                <div class="tab-pane fade" id="specifications" role="tabpanel">
+                    @if (Model.ProductProperties.Any())
+                    {
+                        <table class="table table-striped">
+                            <tbody>
+                                @foreach (var property in Model.ProductProperties)
+                                {
+                                    <tr>
+                                        <th style="width: 30%;">@property.Attr</th>
+                                        <td>@property.Value</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <p>Ürün özellikleri bulunmamaktadır.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
