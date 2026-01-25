@@ -1,0 +1,70 @@
+﻿@using ExampleSportsOutdoor.Models;
+@{
+	ViewData["Title"] = "Home Page";
+}
+@model (List<Product>, List<Category>)
+
+<!--DROPDOWN-->
+<div class="dropdown d-flex justify-content-center m-2 gap-2">
+	<button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+		Kategoriler
+	</button>
+	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+		@foreach (var item in Model.Item2.Where(x => string.IsNullOrEmpty(x.ParentId))) @*DropDown Açıldığında ana kategoriler için ParentIdsi boş kontrolü*@
+		{
+			<h6 class="dropdown-header" style="color: black">@item.Name</h6>
+			@foreach (var subCategories in Model.Item2.Where(x => x.ParentId == item.Id.ToString())) @*DropDown Açıldığında ana kategoriler için ParentId ile ana kategori id'si aynı olanlar listeleniyor*@
+			{
+				<a class="dropdown-item" href="#" style="padding-left: 2rem;">
+					@subCategories.Name
+				</a>
+			}
+		}
+	</div>
+	@foreach (var buttonCategory in Model.Item2.Where(x => string.IsNullOrEmpty(x.ParentId)))@*Ana Sayfada Ana kategorileri buton olarak göstermek için Parentıd boş kontrolü*@
+	{
+		<button type="button" class="btn btn-dark">@buttonCategory.Name</button>
+	}
+</div>
+
+<!--SLIDER-->
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+	<div class="carousel-inner">
+		@foreach (var item in Model.Item2.Where(x => string.IsNullOrEmpty(x.ParentId))) @*yine anakategori görselleri için parentıd boş kontrolü*@
+		{
+			var isActive = item == Model.Item2.First() ? "active" : ""; @*slayt görünmesi için bir active sınıfı ve kontrolü*@
+			<div class="carousel-item @isActive">
+				<img class="d-block w-100" src="@item.ImgUrl" style="height: 550px;">
+				<div class="carousel-caption d-none d-md-block">
+					<h5>@item.Name</h5>
+					<p>@item.Description</p>
+				</div>
+			</div>
+		}
+	</div>
+	<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-bs-slide="prev">
+		<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	</a>
+	<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-bs-slide="next">
+		<span class="carousel-control-next-icon" aria-hidden="true"></span>
+	</a>
+</div>
+
+<!--PRODUCT CARDS-->
+<div class="card-group m-2 d-flex justify-content-center">
+	@foreach (var item in Model.Item1.Where(x => x.Id == 1 || x.Id == 15 || x.Id == 19)) @*Product ıdlerı 1,15,19 olan ürünleri filtreledim kartlarda bu ürünler gösterilecek*@
+	{
+		var image = item.ProductImages.FirstOrDefault(x => x.IsCurrent); @*Is Current kontrolu yaptım 1 olan gösterilecek*@
+		<div class="card">
+			<img class="card-img-top" src="@image?.ImageUrl" alt="@item.Name" style="height: 400px;">
+			<div class="card-body">
+				<h5 class="card-title">@item.Name</h5>
+				<p class="card-text">@item.Description</p>
+				<p class="card-text"><strong>Fiyat: @item.Price.ToString("C2")</strong></p> @*C2 para birimi için kullanıldı*@
+				<a asp-controller="Home" asp-action="ProductDetail" asp-route-id="@item.Id" class="btn btn-dark">Ürün Detayı</a>
+				<a href="#" class="btn btn-dark">Sepete Ekle</a>
+			</div>
+		</div>
+	}
+</div>
+

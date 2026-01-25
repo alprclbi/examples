@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - ExampleSportsOutdoor</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/ExampleSportsOutdoor.styles.css" asp-append-version="true" />
+</head>
+
+
+<body>
+	<!--NAVBAR-->
+	<header>
+		<nav class="navbar navbar-dark bg-dark">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark m-2">
+				<a class="navbar-brand" asp-controller="Home" asp-action="Index">Çelebi Sports Outdoor</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</nav>
+			<!--Arama Kutusu Ve Butonu-->
+			<form class="d-flex justify-content-end gap-2 col-4 m-2">
+				<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+				<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+			</form>
+		</nav>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+	<!--FOOTER-->
+	<footer class="border-top footer text-muted">
+		<div class="container d-flex flex-wrap justify-content-between align-items-center">
+			<p class="col-md-4 mb-0 text-white"></p>
+			<ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+				<li class="ms-3">
+					<a href="#">
+						<img src="~/images/logos/instagram.png" width="35" height="35" class="footer-icon" alt="Instagram" />
+					</a>
+				</li>
+				<li class="ms-3">
+					<a href="#">
+						<img src="~/images/logos/facebook.png" width="35" height="35" class="footer-icon" alt="Facebook" />
+					</a>
+				</li>
+			</ul>
+		</div>
+	</footer>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
