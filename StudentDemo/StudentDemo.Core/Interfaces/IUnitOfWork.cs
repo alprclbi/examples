@@ -18,7 +18,7 @@ namespace StudentDemo.Core.Interfaces
 /// SOLID: Single Responsibility - Sadece transaction yönetimi
 /// </summary>
 {
-    public interface IUnıtOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         // Repository'lere erişim
         IBookRepository Books { get; }

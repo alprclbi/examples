@@ -15,7 +15,7 @@ public class BookDto
     public string Title { get; set; } = string.Empty;
     public string? ISBN { get; set; }
     public string? Price { get; set; }
-    public int? AuthhorId { get; set; }
+    public int? AuthorId { get; set; }
     public string? AuthorName { get; set; } // Navigation property yerine sadece isim
     public DateTime? CreatedAt { get; set; }
 }
