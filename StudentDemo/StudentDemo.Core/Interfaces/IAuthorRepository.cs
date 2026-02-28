@@ -1,9 +1,4 @@
 ﻿using StudentDemo.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentDemo.Core.Interfaces
 
@@ -20,7 +15,9 @@ namespace StudentDemo.Core.Interfaces
     {
         // Yazar özel metotlar
         Task<Author?> GetAuthorWithBooksAsync(int id);
+
         Task<IEnumerable<Author>> GetAllWithBooksAsync();
+
         Task<IEnumerable<Author>> GetAuthorsByCountryAsync(string country);
 
     }

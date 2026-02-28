@@ -17,7 +17,7 @@ namespace StudentDemo.Core.Services;
 /// - Interface Segregation: Alt sınıflar üst sınfılara ait interfaceleri kullanır.
 /// </summary>
 
-public class AuthorService
+public class AuthorService : IAuthorService
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -30,7 +30,7 @@ public class AuthorService
     /// Tüm yazarları getirir.
     /// </summary>
 
-    public async Task<IEnumerable<AuthorDto>> GettAllAuthorsAsync()
+    public async Task<IEnumerable<AuthorDto>> GetAllAuthorsAsync()
     {
         var authors = await _unitOfWork.Authors.GetAllWithBooksAsync();
         return authors.Select(MapToDto);

@@ -14,7 +14,7 @@ public class BookDto
     public int Id { get; set; }
     public string Title { get; set; } = string.Empty;
     public string? ISBN { get; set; }
-    public string? Price { get; set; }
+    public decimal? Price { get; set; }
     public int? AuthorId { get; set; }
     public string? AuthorName { get; set; } // Navigation property yerine sadece isim
     public DateTime? CreatedAt { get; set; }
@@ -27,7 +27,7 @@ public class CreateBookDto
     public string Title { get; set; } = string.Empty;
     public string? ISBN { get; set; }
     public decimal? Price { get; set; }
-    public int? AuthhorId { get; set; }
+    public int? AuthorId { get; set; }
 }
 
 // Kitap güncelleme için kullanılan DTO
@@ -37,5 +37,6 @@ public class UpdateBookDto
     public string Title { get; set; } = string.Empty;
     public string? ISBN { get; set; }
     public decimal? Price { get; set; }
-    public int? AuthhorId { get; set; }
+    public int? AuthorId { get; set; }
+ 
 }

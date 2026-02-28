@@ -86,7 +86,7 @@ namespace StudentDemo.Data
         /// Hata durumunda tüm değişiklikleri iptal etmek için kullanılır.
         /// </summary>
         
-        public async Task RollbackTransactonAsync()
+        public async Task RollbackTransactionAsync()
         {
             if (_transaction != null)
             {

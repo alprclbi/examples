@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StudentDemo.Core.Interfaces;
 using StudentDemo.Data.Context;
 using System;
 using System.Collections.Generic;
@@ -80,7 +81,7 @@ namespace StudentDemo.Data.Repositories
         // Kayit siler
         // NOT: Savechanges cagrilana kadar veritabanina kaydedilmez
         // </summary>
-        public virtual void Remove(T entity)
+        public virtual void Delete(T entity)
         {
             if (_context.Entry(entity).State == EntityState.Detached)
             {

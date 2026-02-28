@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudentDemo.Core.Interfaces
+namespace StudentDemo.Core.Interfaces;
 
 /// <summary>
 /// IBookREpository - Kitap Repository Interface
@@ -15,13 +15,12 @@ namespace StudentDemo.Core.Interfaces
 ///  - Interface Segregation: IRepository'den türetilmiş + kitaba özel metotlar
 ///  - Liskov Substitution: IRepository<Book> yerine kullanılabilir 
 /// </summary>
+
+public interface IBookRepository : IRepository<Book>
 {
-    public interface IBookRepository : IRepository<Book>
-    {
-        // Kitaba özel metotlar
-        Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(int authorId);
-        Task<Book?> getBookWithAuthorAsync(int id);
-        Task<IEnumerable<Book>> getAllWithAuthorsAsync();
-        Task<Book?> GetByIsbnAsync(string isbn);
-    }
+    // Kitaba özel metotlar
+    Task<IEnumerable<Book>> GetBooksByAuthorIdAsync(int authorId);
+    Task<Book?> GetBookWithAuthorAsync(int id);
+    Task<IEnumerable<Book>> GetAllWithAuthorsAsync();
+    Task<Book?> GetByIsbnAsync(string isbn);
 }

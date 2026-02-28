@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StudentDemo.Core.Entities;
+using StudentDemo.Core.Interfaces;
 using StudentDemo.Data.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StudentDemo.Data.Repositories
 /// <summary>
@@ -33,7 +29,7 @@ namespace StudentDemo.Data.Repositories
         // <summary>
         //tum yazarlari kitaplariyla birlikte getirir (Eager loading)
         // </summary>
-        public async Task<IEnumerable<Author>> GetAllAuthorsWithBooksAsync()
+        public async Task<IEnumerable<Author>> GetAllWithBooksAsync()
         {
             return await _dbSet.Include(a => a.Books).ToListAsync();
         }
