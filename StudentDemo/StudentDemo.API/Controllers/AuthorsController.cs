@@ -6,8 +6,7 @@ namespace StudentDemo.API.Controllers;
 
 // <summary>
 // AuthorsController - Yazar API Endpoint'lerini yöneten controller.
-//
-// SOLID: Singel Resposiblity Principle + Dependency Inversion
+// SOLID: Single Resposiblity Principle + Dependency Inversion
 // </summary>
 
 [ApiController]
