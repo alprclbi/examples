@@ -1,3 +1,4 @@
+using System.Data;
 using Microsoft.EntityFrameworkCore;
 using StudentDemo.Core.Interfaces;
 using StudentDemo.Core.Services;
@@ -6,6 +7,16 @@ using StudentDemo.Data.Context;
 using StudentDemo.Data.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
+// CORS politikasını tanımla
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FronendPolicy", policy =>
+    {
+        policy.AllowAnyOrigin()   // Şimdilik test için her yere izin verelim
+              .AllowAnyMethod()   // GET, POST, PUT, DELETE hepsine izin ver
+              .AllowAnyHeader();  // Tüm header'lara izin ver
+    });
+});
 
 // DbContext kaydı
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -60,29 +71,86 @@ using (var scope = app.Services.CreateScope())
     var logger = services.GetRequiredService<ILogger<Program>>();
     var context = services.GetRequiredService<AppDbContext>();
 
-    int retryCount = 0;
-    bool success = false;
+    var retryCount = 0;
+    var success = false;
 
-    while (!success && retryCount < 10)
+    logger.LogInformation("SQL Server bağlantısı bekleniyor...");
+    await Task.Delay(5000);
+
+    while (!success && retryCount < 12)
     {
         try
         {
             var connString = context.Database.GetConnectionString();
-            logger.LogInformation("Veritabanı migrasyonu deneniyor (Deneme {RetryCount})... Conn: {Conn}", retryCount + 1, connString?.Split(';')[0]);
-            context.Database.Migrate();
+            logger.LogInformation(
+                "Veritabanı migrasyonu deneniyor (Deneme {RetryCount})... Server: {Server}",
+                retryCount + 1,
+                connString?.Split(';').FirstOrDefault(x => x.StartsWith("Server")));
+
+            await context.Database.OpenConnectionAsync();
+            await context.Database.CloseConnectionAsync();
+
+            var appliedMigrations = (await context.Database.GetAppliedMigrationsAsync()).ToList();
+            var pendingMigrations = (await context.Database.GetPendingMigrationsAsync()).ToList();
+
+            if (pendingMigrations.Count == 0)
+            {
+                logger.LogInformation("Bekleyen migration bulunmuyor.");
+                success = true;
+                continue;
+            }
+
+            await using var connection = context.Database.GetDbConnection();
+            if (connection.State != ConnectionState.Open)
+            {
+                await connection.OpenAsync();
+            }
+
+            await using var command = connection.CreateCommand();
+            command.CommandText = """
+                SELECT COUNT(*)
+                FROM INFORMATION_SCHEMA.TABLES
+                WHERE TABLE_NAME IN ('Authors', 'Books')
+                """;
+
+            var existingTables = Convert.ToInt32(await command.ExecuteScalarAsync());
+
+            if (appliedMigrations.Count == 0 && existingTables > 0)
+            {
+                throw new InvalidOperationException(
+                    "Veritabanında tablolar mevcut, ancak __EFMigrationsHistory boş. " +
+                    "Migration geçmişi ile veritabanı senkron değil.");
+            }
+
+            await context.Database.MigrateAsync();
             success = true;
             logger.LogInformation("Veritabanı migrasyonu başarıyla tamamlandı.");
+        }
+        catch (InvalidOperationException ex) when (
+            ex.Message.Contains("__EFMigrationsHistory") ||
+            ex.Message.Contains("zaten mevcut") ||
+            ex.Message.Contains("already an object named"))
+        {
+            logger.LogCritical(ex, "Migration geçmişi ile veritabanı uyumsuz. Uygulama durduruluyor.");
+            throw;
         }
         catch (Exception ex)
         {
             retryCount++;
-            logger.LogWarning("Migrasyon başarısız (Deneme {RetryCount}): {Message}", retryCount, ex.Message);
-            if (retryCount >= 10)
+            logger.LogWarning(
+                "Migrasyon başarısız (Deneme {RetryCount}). Hata: {Message}",
+                retryCount,
+                ex.Message);
+
+            if (retryCount >= 12)
             {
                 logger.LogCritical(ex, "Maksimum deneme sayısına ulaşıldı. Uygulama kapatılıyor.");
                 throw;
             }
-            Thread.Sleep(5000); // 5 saniye bekle ve tekrar dene
+
+            var delay = retryCount * 5000;
+            logger.LogInformation("{Delay} ms sonra tekrar denenecek...", delay);
+            await Task.Delay(delay);
         }
     }
 }
@@ -98,6 +166,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseCors("FronendPolicy");
 app.UseAuthorization();
 app.MapControllers();
 

@@ -5,15 +5,19 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_SA_PASSWORD=StudentPassword123!
+      - MSSQL_PID=Developer
     ports:
       - "1433:1433"
     networks:
       - student-network
+    volumes:
+      - student-db-data:/var/opt/mssql
     healthcheck:
       test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P 'StudentPassword123!' -Q 'SELECT 1' -C"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 15s
 
   api:
     image: student-demo-api
@@ -27,7 +31,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      - SQL_CONN=Server=db;Database=StudentDemoDb;User Id=sa;Password=StudentPassword123!;Encrypt=False;TrustServerCertificate=True;Connection Timeout=60;
+      - SQL_CONN=Server=db;Database=StudentDemoDb;User Id=sa;Password=StudentPassword123!;Encrypt=False;TrustServerCertificate=True;Connection Timeout=30;
       - ASPNETCORE_ENVIRONMENT=Development
     networks:
       - student-network
@@ -36,3 +40,6 @@ services:
 networks:
   student-network:
     driver: bridge
+
+volumes:
+  student-db-data:

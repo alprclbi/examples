@@ -1,0 +1,396 @@
+﻿@{
+    ViewData["Title"] = "Student Demo";
+}
+
+<div class="container py-4">
+    <div class="text-center mb-4">
+        <h1 class="display-6">Student Demo</h1>
+        <p class="text-muted mb-0">Authors ve Books verilerini API'den getirip basit CRUD işlemleri yapar.</p>
+    </div>
+
+    <div id="messageBox" class="alert d-none" role="alert"></div>
+
+    <div id="loading" class="text-center my-4">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-2">Veriler yükleniyor...</p>
+    </div>
+
+    <div id="content" class="d-none">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0">Authors</h2>
+                        <button type="button" class="btn btn-sm btn-success" onclick="createItem('author')">Yeni Author</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Ad</th>
+                                        <th>Ülke</th>
+                                        <th>Kitap</th>
+                                        <th class="text-end">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="authors-body">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">Yazar verisi bekleniyor...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2 class="h5 mb-0">Books</h2>
+                        <button type="button" class="btn btn-sm btn-success" onclick="createItem('book')">Yeni Book</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Başlık</th>
+                                        <th>Yazar</th>
+                                        <th>Fiyat</th>
+                                        <th class="text-end">İşlemler</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="books-body">
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted">Kitap verisi bekleniyor...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiBaseUrls = ["http://localhost:5000/api"];
+
+        document.addEventListener("DOMContentLoaded", async () => {
+            await loadAllData();
+        });
+
+        async function loadAllData(showSuccessMessage = true) {
+            toggleLoading(true);
+
+            try {
+                const [authors, books] = await Promise.all([
+                    apiRequest("/Authors"),
+                    apiRequest("/Books")
+                ]);
+
+                renderAuthors(authors);
+                renderBooks(books);
+                toggleLoading(false);
+
+                if (showSuccessMessage) {
+                    showMessage("Veriler başarıyla yüklendi.", "success");
+                }
+            } catch (error) {
+                toggleLoading(false);
+                showMessage(error.message, "danger");
+            }
+        }
+
+        async function apiRequest(path, options = {}) {
+            let lastError = null;
+
+            for (const baseUrl of apiBaseUrls) {
+                try {
+                    const requestOptions = {
+                        method: options.method ?? "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            ...(options.headers ?? {})
+                        }
+                    };
+
+                    if (options.body !== undefined) {
+                        requestOptions.body = JSON.stringify(options.body);
+                    }
+
+                    const response = await fetch(`${baseUrl}${path}`, requestOptions);
+
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(errorText || `${path} isteği başarısız oldu. Durum kodu: ${response.status}`);
+                    }
+
+                    if (response.status === 204) {
+                        return null;
+                    }
+
+                    const text = await response.text();
+                    return text ? JSON.parse(text) : null;
+                } catch (error) {
+                    lastError = error;
+                }
+            }
+
+            throw new Error(`API'ye ulaşılamadı. API projesinin çalıştığından emin olun. Son hata: ${lastError?.message ?? 'Bilinmeyen hata'}`);
+        }
+
+        function renderAuthors(authors) {
+            const tbody = document.getElementById("authors-body");
+
+            if (!authors || authors.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Author kaydı bulunamadı.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = authors.map(author => `
+                <tr>
+                    <td>${author.id}</td>
+                    <td>${escapeHtml(author.name ?? "-")}</td>
+                    <td>${escapeHtml(author.country ?? "-")}</td>
+                    <td>${author.bookCount ?? 0}</td>
+                    <td class="text-end">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-primary" onclick="viewItem('author', ${author.id})">Detay</button>
+                            <button type="button" class="btn btn-outline-warning" onclick="editItem('author', ${author.id})">Düzenle</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="deleteItem('author', ${author.id})">Sil</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join("");
+        }
+
+        function renderBooks(books) {
+            const tbody = document.getElementById("books-body");
+
+            if (!books || books.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Book kaydı bulunamadı.</td></tr>`;
+                return;
+            }
+
+            tbody.innerHTML = books.map(book => `
+                <tr>
+                    <td>${book.id}</td>
+                    <td>${escapeHtml(book.title ?? "-")}</td>
+                    <td>${escapeHtml(book.authorName ?? "-")}</td>
+                    <td>${formatPrice(book.price)}</td>
+                    <td class="text-end">
+                        <div class="btn-group btn-group-sm" role="group">
+                            <button type="button" class="btn btn-outline-primary" onclick="viewItem('book', ${book.id})">Detay</button>
+                            <button type="button" class="btn btn-outline-warning" onclick="editItem('book', ${book.id})">Düzenle</button>
+                            <button type="button" class="btn btn-outline-danger" onclick="deleteItem('book', ${book.id})">Sil</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join("");
+        }
+
+        async function createItem(type) {
+            try {
+                if (type === "author") {
+                    const name = prompt("Author adı girin:");
+                    if (name === null) return;
+
+                    const country = prompt("Ülke girin:", "Türkiye");
+                    if (country === null) return;
+
+                    await apiRequest("/Authors", {
+                        method: "POST",
+                        body: {
+                            name: name.trim(),
+                            country: country.trim() || null
+                        }
+                    });
+
+                    showMessage("Author başarıyla eklendi.", "success");
+                }
+
+                if (type === "book") {
+                    const title = prompt("Book başlığı girin:");
+                    if (title === null) return;
+
+                    const isbn = prompt("ISBN girin:", "978-");
+                    if (isbn === null) return;
+
+                    const priceInput = prompt("Fiyat girin:", "100");
+                    if (priceInput === null) return;
+
+                    const authorIdInput = prompt("Author ID girin:", "1");
+                    if (authorIdInput === null) return;
+
+                    await apiRequest("/Books", {
+                        method: "POST",
+                        body: {
+                            title: title.trim(),
+                            isbn: isbn.trim() || null,
+                            price: parseNullableNumber(priceInput),
+                            authorId: parseNullableInt(authorIdInput)
+                        }
+                    });
+
+                    showMessage("Book başarıyla eklendi.", "success");
+                }
+
+                await loadAllData(false);
+            } catch (error) {
+                showMessage(`Kayıt eklenemedi. ${error.message}`, "danger");
+            }
+        }
+
+        async function viewItem(type, id) {
+            try {
+                const path = type === "author" ? `/Authors/${id}` : `/Books/${id}`;
+                const item = await apiRequest(path);
+
+                if (type === "author") {
+                    alert(`Author Detay\n\nID: ${item.id}\nAd: ${item.name ?? '-'}\nÜlke: ${item.country ?? '-'}\nKitap Sayısı: ${item.bookCount ?? 0}`);
+                } else {
+                    alert(`Book Detay\n\nID: ${item.id}\nBaşlık: ${item.title ?? '-'}\nISBN: ${item.isbn ?? '-'}\nFiyat: ${item.price ?? '-'}\nAuthor ID: ${item.authorId ?? '-'}\nAuthor: ${item.authorName ?? '-'}`);
+                }
+            } catch (error) {
+                showMessage(`Detay getirilemedi. ${error.message}`, "danger");
+            }
+        }
+
+        async function editItem(type, id) {
+            try {
+                if (type === "author") {
+                    const current = await apiRequest(`/Authors/${id}`);
+
+                    const name = prompt("Yeni author adı:", current.name ?? "");
+                    if (name === null) return;
+
+                    const country = prompt("Yeni ülke:", current.country ?? "");
+                    if (country === null) return;
+
+                    await apiRequest(`/Authors/${id}`, {
+                        method: "PUT",
+                        body: {
+                            name: name.trim(),
+                            country: country.trim() || null
+                        }
+                    });
+
+                    showMessage(`Author ${id} güncellendi.`, "success");
+                }
+
+                if (type === "book") {
+                    const current = await apiRequest(`/Books/${id}`);
+
+                    const title = prompt("Yeni başlık:", current.title ?? "");
+                    if (title === null) return;
+
+                    const isbn = prompt("Yeni ISBN:", current.isbn ?? "");
+                    if (isbn === null) return;
+
+                    const priceInput = prompt("Yeni fiyat:", current.price ?? "");
+                    if (priceInput === null) return;
+
+                    const authorIdInput = prompt("Yeni author ID:", current.authorId ?? "");
+                    if (authorIdInput === null) return;
+
+                    await apiRequest(`/Books/${id}`, {
+                        method: "PUT",
+                        body: {
+                            title: title.trim(),
+                            isbn: isbn.trim() || null,
+                            price: parseNullableNumber(priceInput),
+                            authorId: parseNullableInt(authorIdInput)
+                        }
+                    });
+
+                    showMessage(`Book ${id} güncellendi.`, "success");
+                }
+
+                await loadAllData(false);
+            } catch (error) {
+                showMessage(`Güncelleme yapılamadı. ${error.message}`, "danger");
+            }
+        }
+
+        async function deleteItem(type, id) {
+            const typeName = type === "author" ? "Author" : "Book";
+            const confirmed = confirm(`${typeName} ${id} silinsin mi?`);
+
+            if (!confirmed) {
+                return;
+            }
+
+            try {
+                const path = type === "author" ? `/Authors/${id}` : `/Books/${id}`;
+                await apiRequest(path, { method: "DELETE" });
+                showMessage(`${typeName} ${id} silindi.`, "success");
+                await loadAllData(false);
+            } catch (error) {
+                showMessage(`Silme işlemi başarısız. ${error.message}`, "danger");
+            }
+        }
+
+        function parseNullableInt(value) {
+            if (value === null || value === undefined || value.toString().trim() === "") {
+                return null;
+            }
+
+            const parsed = Number.parseInt(value, 10);
+            if (Number.isNaN(parsed)) {
+                throw new Error("Sayısal bir Author ID girilmelidir.");
+            }
+
+            return parsed;
+        }
+
+        function parseNullableNumber(value) {
+            if (value === null || value === undefined || value.toString().trim() === "") {
+                return null;
+            }
+
+            const normalized = value.toString().replace(",", ".");
+            const parsed = Number.parseFloat(normalized);
+            if (Number.isNaN(parsed)) {
+                throw new Error("Geçerli bir fiyat girilmelidir.");
+            }
+
+            return parsed;
+        }
+
+        function formatPrice(price) {
+            if (price === null || price === undefined) {
+                return "-";
+            }
+
+            return `${price} ₺`;
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#39;");
+        }
+
+        function toggleLoading(isLoading) {
+            document.getElementById("loading").classList.toggle("d-none", !isLoading);
+            document.getElementById("content").classList.toggle("d-none", isLoading);
+        }
+
+        function showMessage(message, type) {
+            const messageBox = document.getElementById("messageBox");
+            messageBox.className = `alert alert-${type}`;
+            messageBox.textContent = message;
+            messageBox.classList.remove("d-none");
+        }
+    </script>
+}
